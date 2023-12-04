@@ -1,4 +1,3 @@
-
 //server side programming
 
 import java.net.*;
@@ -14,7 +13,7 @@ public class serverTest {
 
             ServerSocket serverSocket = new ServerSocket();
 
-            serverSocket.bind(new InetSocketAddress("localhost", 8888));
+            // serverSocket.bind(new InetSocketAddress("localhost", 8888));
 
             System.out.println("Server listen on" + serverSocket.getInetAddress() + serverSocket.getLocalPort());
 
@@ -22,22 +21,30 @@ public class serverTest {
                 clientSocket = serverSocket.accept();
                 DataInputStream is = new DataInputStream(
                         new BufferedInputStream(clientSocket.getInputStream()));
-                
-                BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
                 PrintStream os = new PrintStream(
                         new BufferedOutputStream(clientSocket.getOutputStream()));
+                Thread thread = new Thread(new Runnable() {
 
-                while ((inputLine = br.readLine()) != null) {
-                    if (inputLine.equals("Stop!")) {
-                        flag = false;
-                        break;
+                    @Override
+                    public void run() {
+                        // 套接字处理程序
+                        String name = br.readLine();
+
+                        while ((inputLine = br.readLine()) != null) {
+                            if (inputLine.equals("Stop!")) {
+                                flag = false;
+                                break;
+                            }
+                            os.println(inputLine + "1234");
+                            System.out.println("client: " + name + "said: "+ inputLine);
+                            os.flush();
+                        }
                     }
-                    os.println(inputLine + "1234");
-                    System.out.println("client: " + inputLine);
-                    os.flush();
-                }
+                });
+                thread.start();
                 os.close();
                 is.close();
                 clientSocket.close();
