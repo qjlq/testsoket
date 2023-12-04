@@ -9,9 +9,8 @@ public class serverTest {
         try {
             boolean flag = true;
             Socket clientSocket = null;
-            String inputLine;
 
-            ServerSocket serverSocket = new ServerSocket();
+            ServerSocket serverSocket = new ServerSocket(8888);
 
             // serverSocket.bind(new InetSocketAddress("localhost", 8888));
 
@@ -30,21 +29,24 @@ public class serverTest {
 
                     @Override
                     public void run() {
-                        // 套接字处理程序
-                        String name = br.readLine();
-
-                        while ((inputLine = br.readLine()) != null) {
-                            if (inputLine.equals("Stop!")) {
-                                flag = false;
-                                break;
+                        try {
+                            String name = br.readLine();
+                            String inputLine;
+                            while ((inputLine = br.readLine()) != null) {
+                                if (inputLine.equals("Stop!")) {
+                                    break;
+                                }
+                                os.println("client: " + name + "said: " + inputLine);
+                                System.out.println("client: " + name + "said: " + inputLine);
+                                os.flush();
                             }
-                            os.println("client: " + name + "said: " + inputLine);
-                            System.out.println("client: " + name + "said: "+ inputLine);
-                            os.flush();
+                        } catch (IOException e) {
+                            System.err.println("Exception:" + e);
                         }
                     }
                 });
                 thread.start();
+                flag = false;
                 os.close();
                 is.close();
                 clientSocket.close();
