@@ -15,14 +15,10 @@ public class serverTest {
             // serverSocket.bind(new InetSocketAddress("localhost", 8888));
 
             System.out.println("Server listen on" + serverSocket.getInetAddress() + serverSocket.getLocalPort());
-
+            DataInputStream is = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
             while (flag) {
                 clientSocket = serverSocket.accept();
-                DataInputStream is = new DataInputStream(
-                        new BufferedInputStream(clientSocket.getInputStream()));
-
-                BufferedReader br = new BufferedReader(new InputStreamReader(is));
-
                 PrintStream os = new PrintStream(
                         new BufferedOutputStream(clientSocket.getOutputStream()));
                 Thread thread = new Thread(new Runnable() {
@@ -31,19 +27,20 @@ public class serverTest {
                     public void run() {
                         try {
                             String name = br.readLine();
+                            //String name = "kalok";
                             String inputLine;
-                            os.println("your name:" + name);
+                            System.out.println("your name:" + name);
                             while ((inputLine = br.readLine()) != null) {
                                 if (inputLine.equals("Stop!")) {
                                     break;
                                 }
-                                os.println("client: " + name + "said: " + inputLine);
+                                os.println(name + "said: " + inputLine);
                                 System.out.println("client: " + name + "said: " + inputLine);
                                 os.flush();
                             }
                         } catch (IOException e) {
                             System.err.println("Exception:" + e);
-                        } 
+                        }
                     }
                 });
                 thread.start();
