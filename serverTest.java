@@ -38,7 +38,7 @@ public class serverTest {
                                 flag = false;
                                 break;
                             }
-                            os.println(inputLine + "1234");
+                            os.println("client: " + name + "said: " + inputLine);
                             System.out.println("client: " + name + "said: "+ inputLine);
                             os.flush();
                         }
