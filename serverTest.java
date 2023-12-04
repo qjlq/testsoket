@@ -43,14 +43,10 @@ public class serverTest {
                             }
                         } catch (IOException e) {
                             System.err.println("Exception:" + e);
-                        }
+                        } 
                     }
                 });
                 thread.start();
-                flag = false;
-                os.close();
-                is.close();
-                clientSocket.close();
             }
             serverSocket.close();
 
