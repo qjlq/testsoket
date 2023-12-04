@@ -15,10 +15,14 @@ public class serverTest {
             // serverSocket.bind(new InetSocketAddress("localhost", 8888));
 
             System.out.println("Server listen on" + serverSocket.getInetAddress() + serverSocket.getLocalPort());
-            DataInputStream is = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
             while (flag) {
                 clientSocket = serverSocket.accept();
+                DataInputStream is = new DataInputStream(
+                        new BufferedInputStream(clientSocket.getInputStream()));
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
                 PrintStream os = new PrintStream(
                         new BufferedOutputStream(clientSocket.getOutputStream()));
                 Thread thread = new Thread(new Runnable() {
