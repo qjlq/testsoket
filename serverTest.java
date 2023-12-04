@@ -32,6 +32,7 @@ public class serverTest {
                         try {
                             String name = br.readLine();
                             String inputLine;
+                            os.println("your name:" + name);
                             while ((inputLine = br.readLine()) != null) {
                                 if (inputLine.equals("Stop!")) {
                                     break;
