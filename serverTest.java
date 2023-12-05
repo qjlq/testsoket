@@ -33,12 +33,12 @@ public class serverTest {
                             String name = br.readLine();
                             //String name = "kalok";
                             String inputLine;
-                            System.out.println("your name:" + name);
+                            System.out.println("welcome name:" + name);
                             while ((inputLine = br.readLine()) != null) {
                                 if (inputLine.equals("Stop!")) {
                                     break;
                                 }
-                                os.println(name + "said: " + inputLine);
+                                os.println(name + " said: " + inputLine);
                                 System.out.println("client: " + name + "said: " + inputLine);
                                 os.flush();
                             }
